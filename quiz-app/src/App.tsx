@@ -84,13 +84,6 @@ function App() {
     return () => clearInterval(interval);
   }, [timerActive, currentScreen, handleSubmitAnswer]);
 
-  useEffect(() => {
-    if (currentScreen === 'quiz') {
-      setTimeRemaining(TOTAL_TIME_PER_QUESTION);
-      setTimerActive(true);
-    }
-  }, [currentQuestionIndex, currentScreen]);
-
   const renderScreen = () => {
     switch (currentScreen) {
       case 'welcome':
