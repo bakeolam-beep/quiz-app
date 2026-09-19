@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { Screen } from './types';
 import { quizData } from './data';
 import { WelcomeScreen } from './components/WelcomeScreen';
@@ -34,28 +34,31 @@ function App() {
     setSelectedAnswer(answerIndex);
   }, []);
 
-  const handleSubmitAnswer = useCallback(() => {
-    if (selectedAnswer !== null && !isAnswerSubmitted) {
-      setIsAnswerSubmitted(true);
-      setTimerActive(false);
-      if (selectedAnswer === currentQuestion.correctAnswer) {
-        setScore((prev) => prev + 1);
-      }
-    }
-  }, [selectedAnswer, isAnswerSubmitted, currentQuestion.correctAnswer]);
-
   const handleNextQuestion = useCallback(() => {
-    if (currentQuestionIndex < totalQuestions - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-      setSelectedAnswer(null);
-      setIsAnswerSubmitted(false);
-      setTimeRemaining(TOTAL_TIME_PER_QUESTION);
-      setTimerActive(true);
-    } else {
-      setCurrentScreen('results');
+    setIsAnswerSubmitted((prevSubmitted) => {
+      if (prevSubmitted) return true;
+      setSelectedAnswer((prevAnswer) => {
+        if (prevAnswer !== null && prevAnswer === currentQuestion.correctAnswer) {
+          setScore((s) => s + 1);
+        }
+        return prevAnswer;
+      });
       setTimerActive(false);
-    }
-  }, [currentQuestionIndex, totalQuestions]);
+      return true;
+    });
+    setTimeout(() => {
+      if (currentQuestionIndex < totalQuestions - 1) {
+        setCurrentQuestionIndex((prev) => prev + 1);
+        setSelectedAnswer(null);
+        setIsAnswerSubmitted(false);
+        setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+        setTimerActive(true);
+      } else {
+        setCurrentScreen('results');
+        setTimerActive(false);
+      }
+    }, 0);
+  }, [currentQuestionIndex, totalQuestions, currentQuestion.correctAnswer]);
 
   const handlePlayAgain = useCallback(() => {
     setCurrentScreen('welcome');
@@ -67,22 +70,49 @@ function App() {
     setTimerActive(false);
   }, []);
 
+  const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
     if (timerActive && currentScreen === 'quiz') {
-      interval = setInterval(() => {
+      timerIntervalRef.current = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
             setTimerActive(false);
-            handleSubmitAnswer();
+            setIsAnswerSubmitted((prevSubmitted) => {
+              if (prevSubmitted) return true;
+              setSelectedAnswer((prevAnswer) => {
+                if (prevAnswer !== null && prevAnswer === currentQuestion.correctAnswer) {
+                  setScore((s) => s + 1);
+                }
+                return prevAnswer;
+              });
+              return true;
+            });
+            setTimeout(() => {
+              if (currentQuestionIndex < totalQuestions - 1) {
+                setCurrentQuestionIndex((prev) => prev + 1);
+                setSelectedAnswer(null);
+                setIsAnswerSubmitted(false);
+                setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+                setTimerActive(true);
+              } else {
+                setCurrentScreen('results');
+                setTimerActive(false);
+              }
+            }, 0);
             return 0;
           }
           return prev - 1;
         });
       }, 1000);
     }
-    return () => clearInterval(interval);
-  }, [timerActive, currentScreen, handleSubmitAnswer]);
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    };
+  }, [timerActive, currentScreen, currentQuestionIndex, totalQuestions, currentQuestion.correctAnswer]);
 
   const renderScreen = () => {
     switch (currentScreen) {
