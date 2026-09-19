@@ -62,7 +62,7 @@ export function QuizScreen({
           type="button"
           className="btn btn-primary"
           onClick={onNext}
-          disabled={!isAnswerSubmitted}
+          disabled={selectedAnswer === null}
         >
           Next Question
         </button>
