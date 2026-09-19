@@ -1,122 +1,129 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect, useCallback } from 'react';
+import type { Screen } from './types';
+import { quizData } from './data';
+import { WelcomeScreen } from './components/WelcomeScreen';
+import { QuizScreen } from './components/QuizScreen';
+import { ResultsScreen } from './components/ResultsScreen';
+import './App.css';
+
+const TOTAL_TIME_PER_QUESTION = 30;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentScreen, setCurrentScreen] = useState<Screen>('welcome');
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+  const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_PER_QUESTION);
+  const [timerActive, setTimerActive] = useState(false);
+
+  const currentQuestion = quizData.questions[currentQuestionIndex];
+  const totalQuestions = quizData.questions.length;
+
+  const handleStartQuiz = useCallback(() => {
+    setCurrentScreen('quiz');
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setIsAnswerSubmitted(false);
+    setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+    setTimerActive(true);
+  }, []);
+
+  const handleAnswerSelect = useCallback((answerIndex: number) => {
+    setSelectedAnswer(answerIndex);
+  }, []);
+
+  const handleSubmitAnswer = useCallback(() => {
+    if (selectedAnswer !== null && !isAnswerSubmitted) {
+      setIsAnswerSubmitted(true);
+      setTimerActive(false);
+      if (selectedAnswer === currentQuestion.correctAnswer) {
+        setScore((prev) => prev + 1);
+      }
+    }
+  }, [selectedAnswer, isAnswerSubmitted, currentQuestion.correctAnswer]);
+
+  const handleNextQuestion = useCallback(() => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
+      setIsAnswerSubmitted(false);
+      setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+      setTimerActive(true);
+    } else {
+      setCurrentScreen('results');
+      setTimerActive(false);
+    }
+  }, [currentQuestionIndex, totalQuestions]);
+
+  const handlePlayAgain = useCallback(() => {
+    setCurrentScreen('welcome');
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setIsAnswerSubmitted(false);
+    setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+    setTimerActive(false);
+  }, []);
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (timerActive && currentScreen === 'quiz') {
+      interval = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            setTimerActive(false);
+            handleSubmitAnswer();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timerActive, currentScreen, handleSubmitAnswer]);
+
+  useEffect(() => {
+    if (currentScreen === 'quiz') {
+      setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+      setTimerActive(true);
+    }
+  }, [currentQuestionIndex, currentScreen]);
+
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'welcome':
+        return <WelcomeScreen quizData={quizData} onStart={handleStartQuiz} />;
+      case 'quiz':
+        return (
+          <QuizScreen
+            question={currentQuestion}
+            currentQuestionIndex={currentQuestionIndex}
+            totalQuestions={totalQuestions}
+            timeRemaining={timeRemaining}
+            onAnswerSelect={handleAnswerSelect}
+            onNext={handleNextQuestion}
+            selectedAnswer={selectedAnswer}
+            isAnswerSubmitted={isAnswerSubmitted}
+          />
+        );
+      case 'results':
+        return (
+          <ResultsScreen
+            score={score}
+            totalQuestions={totalQuestions}
+            onPlayAgain={handlePlayAgain}
+          />
+        );
+    }
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    <div className="app">
+      {renderScreen()}
+    </div>
+  );
 }
 
-export default App
+export default App;

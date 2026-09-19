@@ -1,4 +1,4 @@
-import { QuizQuestion } from '../types';
+import type { QuizQuestion } from '../types';
 
 interface QuizScreenProps {
   question: QuizQuestion;

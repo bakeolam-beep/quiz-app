@@ -1,4 +1,4 @@
-import { QuizData } from './types';
+import type { QuizData } from './types';
 
 export const quizData: QuizData = {
   title: 'Quiz App',
