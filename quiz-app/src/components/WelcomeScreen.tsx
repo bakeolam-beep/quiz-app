@@ -1,4 +1,4 @@
-import { QuizData } from '../types';
+import type { QuizData } from '../types';
 
 interface WelcomeScreenProps {
   quizData: QuizData;
