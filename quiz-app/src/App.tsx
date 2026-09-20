@@ -104,7 +104,7 @@ function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'welcome':
-        return <WelcomeScreen quizData={{ title: 'Quiz App', description: '', questions: [] }} onStart={handleStartQuiz} />;
+        return <WelcomeScreen onStart={handleStartQuiz} />;
       case 'categories':
         return (
           <CategoriesScreen
