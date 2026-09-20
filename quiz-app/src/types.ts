@@ -1,5 +1,5 @@
 export interface QuizQuestion {
-  id: number;
+  id: string;
   text: string;
   options: string[];
   correctAnswer: number;
@@ -16,6 +16,15 @@ export interface Category {
 export interface CategoryQuizData {
   category: Category;
   questions: QuizQuestion[];
+}
+
+export interface QuizSession {
+  categoryId: string;
+  questions: QuizQuestion[];
+}
+
+export interface QuestionHistory {
+  [categoryId: string]: string[];
 }
 
 export type Screen = 'welcome' | 'categories' | 'quiz' | 'results';
