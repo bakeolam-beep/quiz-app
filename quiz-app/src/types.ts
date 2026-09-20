@@ -3,12 +3,19 @@ export interface QuizQuestion {
   text: string;
   options: string[];
   correctAnswer: number;
+  explanation?: string;
 }
 
-export interface QuizData {
-  title: string;
+export interface Category {
+  id: string;
+  name: string;
   description: string;
+  icon: string;
+}
+
+export interface CategoryQuizData {
+  category: Category;
   questions: QuizQuestion[];
 }
 
-export type Screen = 'welcome' | 'quiz' | 'results';
+export type Screen = 'welcome' | 'categories' | 'quiz' | 'results';
