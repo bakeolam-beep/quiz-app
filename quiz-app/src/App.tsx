@@ -31,34 +31,27 @@ function App() {
   }, []);
 
   const handleAnswerSelect = useCallback((answerIndex: number) => {
+    if (isAnswerSubmitted) return;
     setSelectedAnswer(answerIndex);
-  }, []);
+    setIsAnswerSubmitted(true);
+    setTimerActive(false);
+    if (answerIndex === currentQuestion.correctAnswer) {
+      setScore((prev) => prev + 1);
+    }
+  }, [isAnswerSubmitted, currentQuestion.correctAnswer]);
 
   const handleNextQuestion = useCallback(() => {
-    setIsAnswerSubmitted((prevSubmitted) => {
-      if (prevSubmitted) return true;
-      setSelectedAnswer((prevAnswer) => {
-        if (prevAnswer !== null && prevAnswer === currentQuestion.correctAnswer) {
-          setScore((s) => s + 1);
-        }
-        return prevAnswer;
-      });
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setSelectedAnswer(null);
+      setIsAnswerSubmitted(false);
+      setTimeRemaining(TOTAL_TIME_PER_QUESTION);
+      setTimerActive(true);
+    } else {
+      setCurrentScreen('results');
       setTimerActive(false);
-      return true;
-    });
-    setTimeout(() => {
-      if (currentQuestionIndex < totalQuestions - 1) {
-        setCurrentQuestionIndex((prev) => prev + 1);
-        setSelectedAnswer(null);
-        setIsAnswerSubmitted(false);
-        setTimeRemaining(TOTAL_TIME_PER_QUESTION);
-        setTimerActive(true);
-      } else {
-        setCurrentScreen('results');
-        setTimerActive(false);
-      }
-    }, 0);
-  }, [currentQuestionIndex, totalQuestions, currentQuestion.correctAnswer]);
+    }
+  }, [currentQuestionIndex, totalQuestions]);
 
   const handlePlayAgain = useCallback(() => {
     setCurrentScreen('welcome');
@@ -78,28 +71,7 @@ function App() {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
             setTimerActive(false);
-            setIsAnswerSubmitted((prevSubmitted) => {
-              if (prevSubmitted) return true;
-              setSelectedAnswer((prevAnswer) => {
-                if (prevAnswer !== null && prevAnswer === currentQuestion.correctAnswer) {
-                  setScore((s) => s + 1);
-                }
-                return prevAnswer;
-              });
-              return true;
-            });
-            setTimeout(() => {
-              if (currentQuestionIndex < totalQuestions - 1) {
-                setCurrentQuestionIndex((prev) => prev + 1);
-                setSelectedAnswer(null);
-                setIsAnswerSubmitted(false);
-                setTimeRemaining(TOTAL_TIME_PER_QUESTION);
-                setTimerActive(true);
-              } else {
-                setCurrentScreen('results');
-                setTimerActive(false);
-              }
-            }, 0);
+            setIsAnswerSubmitted(true);
             return 0;
           }
           return prev - 1;
@@ -112,7 +84,7 @@ function App() {
         timerIntervalRef.current = null;
       }
     };
-  }, [timerActive, currentScreen, currentQuestionIndex, totalQuestions, currentQuestion.correctAnswer]);
+  }, [timerActive, currentScreen]);
 
   const renderScreen = () => {
     switch (currentScreen) {
