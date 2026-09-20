@@ -50,7 +50,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[0],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'What does "HTTP" stand for?',
         options: [
           'HyperText Transfer Protocol',
@@ -62,14 +62,14 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'HTTP (HyperText Transfer Protocol) is the foundation of data communication on the World Wide Web.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'Which company developed the Windows operating system?',
         options: ['Apple', 'Microsoft', 'Google', 'IBM'],
         correctAnswer: 1,
         explanation: 'Microsoft developed Windows, first released in 1985 as a graphical operating system shell for MS-DOS.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'What is the main function of a router in a network?',
         options: [
           'To connect devices to the internet directly',
@@ -81,7 +81,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'A router connects multiple networks and forwards data packets between them, directing traffic efficiently.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'What does "URL" stand for?',
         options: [
           'Universal Resource Locator',
@@ -93,7 +93,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'URL (Uniform Resource Locator) is the address used to access resources on the internet.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'Which technology is used for wireless communication over short distances?',
         options: ['Bluetooth', 'Ethernet', 'Fiber optic', 'Coaxial cable'],
         correctAnswer: 0,
@@ -105,28 +105,28 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[1],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'In which year did World War II end?',
         options: ['1943', '1945', '1947', '1950'],
         correctAnswer: 1,
         explanation: 'World War II ended in 1945 with the surrender of Germany in May and Japan in September.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'Who was the first President of the United States?',
         options: ['Thomas Jefferson', 'John Adams', 'George Washington', 'Benjamin Franklin'],
         correctAnswer: 2,
         explanation: 'George Washington served as the first U.S. President from 1789 to 1797.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'Which ancient civilization built the pyramids of Giza?',
         options: ['Roman', 'Greek', 'Egyptian', 'Mesopotamian'],
         correctAnswer: 2,
         explanation: 'The ancient Egyptians built the pyramids of Giza around 2560 BCE as tombs for pharaohs.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'What event marked the beginning of World War I?',
         options: [
           'Invasion of Poland',
@@ -138,7 +138,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'The assassination of Archduke Franz Ferdinand of Austria-Hungary in 1914 triggered the start of World War I.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'Which empire was ruled by Julius Caesar?',
         options: ['Roman Empire', 'Greek Empire', 'Persian Empire', 'Byzantine Empire'],
         correctAnswer: 0,
@@ -150,35 +150,35 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[2],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'What is the normal human body temperature in Celsius?',
         options: ['35.0°C', '37.0°C', '39.0°C', '41.0°C'],
         correctAnswer: 1,
         explanation: 'Normal human body temperature is approximately 37°C (98.6°F), though it can vary slightly.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'Which organ pumps blood throughout the body?',
         options: ['Liver', 'Heart', 'Lungs', 'Kidneys'],
         correctAnswer: 1,
         explanation: 'The heart is a muscular organ that pumps blood through the circulatory system.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'What vitamin is produced when skin is exposed to sunlight?',
         options: ['Vitamin A', 'Vitamin C', 'Vitamin D', 'Vitamin K'],
         correctAnswer: 2,
         explanation: 'Vitamin D is synthesized in the skin when exposed to UVB rays from sunlight.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'How many bones are in the adult human body?',
         options: ['206', '210', '215', '220'],
         correctAnswer: 0,
         explanation: 'The adult human skeleton typically has 206 bones. Babies are born with about 270 bones that fuse together.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'Which blood type is known as the universal donor?',
         options: ['A+', 'B+', 'AB+', 'O-'],
         correctAnswer: 3,
@@ -190,7 +190,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[3],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'What does "AI" stand for?',
         options: [
           'Automated Intelligence',
@@ -202,21 +202,21 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'AI (Artificial Intelligence) refers to computer systems that can perform tasks typically requiring human intelligence.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'Which of these is a type of machine learning?',
         options: ['Supervised learning', 'Directed learning', 'Guided learning', 'Controlled learning'],
         correctAnswer: 0,
         explanation: 'Supervised learning is a type of ML where models learn from labeled training data.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'What is a neural network inspired by?',
         options: ['Computer circuits', 'The human brain', 'Mathematical formulas', 'Electrical grids'],
         correctAnswer: 1,
         explanation: 'Neural networks are computing systems inspired by the biological neural networks in animal brains.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'What is "natural language processing" (NLP)?',
         options: [
           'Teaching computers to understand human language',
@@ -228,7 +228,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'NLP is a field of AI that enables computers to understand, interpret, and generate human language.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'Which company created ChatGPT?',
         options: ['Google', 'Microsoft', 'OpenAI', 'Meta'],
         correctAnswer: 2,
@@ -240,7 +240,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[4],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'What is "training data" in machine learning?',
         options: [
           'Data used to test the model',
@@ -252,7 +252,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'Training data is the dataset used to teach a machine learning model to recognize patterns.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'What is "overfitting" in machine learning?',
         options: [
           'When a model performs well on training data but poorly on new data',
@@ -264,7 +264,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'Overfitting occurs when a model memorizes training data including noise, failing to generalize to new data.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'What is the purpose of a "test set" in machine learning?',
         options: [
           'To train the model',
@@ -276,14 +276,14 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'The test set evaluates how well a trained model generalizes to new, unseen data.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'Which algorithm is commonly used for classification tasks?',
         options: ['Linear Regression', 'K-Means', 'Logistic Regression', 'PCA'],
         correctAnswer: 2,
         explanation: 'Logistic Regression is a popular algorithm for binary and multi-class classification problems.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'What is a "feature" in machine learning?',
         options: [
           'The target variable to predict',
@@ -300,14 +300,14 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[5],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'Which programming language is known for its use in web browsers?',
         options: ['Python', 'JavaScript', 'C++', 'Java'],
         correctAnswer: 1,
         explanation: 'JavaScript is the primary programming language for client-side web development in browsers.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'What does "HTML" stand for?',
         options: [
           'HyperText Markup Language',
@@ -319,14 +319,14 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'HTML (HyperText Markup Language) is the standard language for creating web pages.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'Which language is primarily used for iOS app development?',
         options: ['Kotlin', 'Swift', 'Dart', 'Objective-C'],
         correctAnswer: 1,
         explanation: 'Swift is Apple\'s programming language for iOS, macOS, watchOS, and tvOS app development.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'What is a "variable" in programming?',
         options: [
           'A fixed value that never changes',
@@ -338,7 +338,7 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
         explanation: 'A variable is a named storage location in memory that holds a value which can be changed during program execution.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'Which of these is a version control system?',
         options: ['Git', 'Docker', 'Kubernetes', 'Jenkins'],
         correctAnswer: 0,
@@ -350,35 +350,35 @@ export const categoryQuizData: Record<string, CategoryQuizData> = {
     category: categories[6],
     questions: [
       {
-        id: 1,
+        id: "1",
         text: 'Who painted the "Mona Lisa"?',
         options: ['Vincent van Gogh', 'Pablo Picasso', 'Leonardo da Vinci', 'Michelangelo'],
         correctAnswer: 2,
         explanation: 'Leonardo da Vinci painted the Mona Lisa between 1503 and 1519. It is housed in the Louvre Museum in Paris.',
       },
       {
-        id: 2,
+        id: "2",
         text: 'Which art movement is characterized by bold colors and emotional expression?',
         options: ['Impressionism', 'Expressionism', 'Realism', 'Cubism'],
         correctAnswer: 1,
         explanation: 'Expressionism emphasizes subjective emotion over realistic representation, using distorted forms and vivid colors.',
       },
       {
-        id: 3,
+        id: "3",
         text: 'What technique involves painting on wet plaster?',
         options: ['Oil painting', 'Watercolor', 'Fresco', 'Acrylic'],
         correctAnswer: 2,
         explanation: 'Fresco is a mural painting technique where pigments are applied on freshly laid wet plaster.',
       },
       {
-        id: 4,
+        id: "4",
         text: 'Who painted "The Starry Night"?',
         options: ['Claude Monet', 'Vincent van Gogh', 'Salvador Dalí', 'Edvard Munch'],
         correctAnswer: 1,
         explanation: 'Vincent van Gogh painted The Starry Night in 1889 during his stay at an asylum in Saint-Rémy-de-Provence.',
       },
       {
-        id: 5,
+        id: "5",
         text: 'What is "perspective" in art?',
         options: [
           'The use of bright colors',

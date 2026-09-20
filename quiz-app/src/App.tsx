@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import type { Screen } from './types';
-import { categories, categoryQuizData } from './data';
+import type { Screen, QuizQuestion } from './types';
+import { categories } from './data';
+import { getQuizSession } from './utils/quiz';
 import { WelcomeScreen } from './components/WelcomeScreen';
 import { CategoriesScreen } from './components/CategoriesScreen';
 import { QuizScreen } from './components/QuizScreen';
@@ -8,10 +9,11 @@ import { ResultsScreen } from './components/ResultsScreen';
 import './App.css';
 
 const TOTAL_TIME_PER_QUESTION = 30;
+const SESSION_COUNT = 5;
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('welcome');
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
@@ -19,17 +21,16 @@ function App() {
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_PER_QUESTION);
   const [timerActive, setTimerActive] = useState(false);
 
-  const selectedCategory = selectedCategoryId ? categoryQuizData[selectedCategoryId] : null;
-  const questions = selectedCategory?.questions ?? [];
-  const currentQuestion = questions[currentQuestionIndex];
-  const totalQuestions = questions.length;
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+  const totalQuestions = quizQuestions.length;
 
   const handleStartQuiz = useCallback(() => {
     setCurrentScreen('categories');
   }, []);
 
   const handleCategorySelect = useCallback((categoryId: string) => {
-    setSelectedCategoryId(categoryId);
+    const session = getQuizSession(categoryId, SESSION_COUNT);
+    setQuizQuestions(session);
     setCurrentScreen('quiz');
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -41,7 +42,6 @@ function App() {
 
   const handleBackToWelcome = useCallback(() => {
     setCurrentScreen('welcome');
-    setSelectedCategoryId(null);
   }, []);
 
   const handleAnswerSelect = useCallback((answerIndex: number) => {
@@ -69,7 +69,7 @@ function App() {
 
   const handlePlayAgain = useCallback(() => {
     setCurrentScreen('categories');
-    setSelectedCategoryId(null);
+    setQuizQuestions([]);
     setCurrentQuestionIndex(0);
     setScore(0);
     setSelectedAnswer(null);
