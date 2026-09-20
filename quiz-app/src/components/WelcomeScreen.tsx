@@ -1,16 +1,13 @@
-import type { QuizData } from '../types';
-
 interface WelcomeScreenProps {
-  quizData: QuizData;
   onStart: () => void;
 }
 
-export function WelcomeScreen({ quizData, onStart }: WelcomeScreenProps) {
+export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
     <main className="screen welcome-screen" role="main">
       <div className="welcome-card">
-        <h1 className="app-title">{quizData.title}</h1>
-        <p className="app-description">{quizData.description}</p>
+        <h1 className="app-title">Quiz App</h1>
+        <p className="app-description">Test your knowledge across multiple categories. Choose a topic and see how well you score!</p>
         <button
           type="button"
           className="btn btn-primary btn-lg"

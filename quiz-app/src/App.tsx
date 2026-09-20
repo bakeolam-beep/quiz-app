@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import type { Screen } from './types';
-import { quizData } from './data';
+import { categories, categoryQuizData } from './data';
 import { WelcomeScreen } from './components/WelcomeScreen';
+import { CategoriesScreen } from './components/CategoriesScreen';
 import { QuizScreen } from './components/QuizScreen';
 import { ResultsScreen } from './components/ResultsScreen';
 import './App.css';
@@ -10,6 +11,7 @@ const TOTAL_TIME_PER_QUESTION = 30;
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('welcome');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
@@ -17,10 +19,17 @@ function App() {
   const [timeRemaining, setTimeRemaining] = useState(TOTAL_TIME_PER_QUESTION);
   const [timerActive, setTimerActive] = useState(false);
 
-  const currentQuestion = quizData.questions[currentQuestionIndex];
-  const totalQuestions = quizData.questions.length;
+  const selectedCategory = selectedCategoryId ? categoryQuizData[selectedCategoryId] : null;
+  const questions = selectedCategory?.questions ?? [];
+  const currentQuestion = questions[currentQuestionIndex];
+  const totalQuestions = questions.length;
 
   const handleStartQuiz = useCallback(() => {
+    setCurrentScreen('categories');
+  }, []);
+
+  const handleCategorySelect = useCallback((categoryId: string) => {
+    setSelectedCategoryId(categoryId);
     setCurrentScreen('quiz');
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -30,15 +39,20 @@ function App() {
     setTimerActive(true);
   }, []);
 
+  const handleBackToWelcome = useCallback(() => {
+    setCurrentScreen('welcome');
+    setSelectedCategoryId(null);
+  }, []);
+
   const handleAnswerSelect = useCallback((answerIndex: number) => {
-    if (isAnswerSubmitted) return;
+    if (isAnswerSubmitted || !currentQuestion) return;
     setSelectedAnswer(answerIndex);
     setIsAnswerSubmitted(true);
     setTimerActive(false);
     if (answerIndex === currentQuestion.correctAnswer) {
       setScore((prev) => prev + 1);
     }
-  }, [isAnswerSubmitted, currentQuestion.correctAnswer]);
+  }, [isAnswerSubmitted, currentQuestion]);
 
   const handleNextQuestion = useCallback(() => {
     if (currentQuestionIndex < totalQuestions - 1) {
@@ -54,7 +68,8 @@ function App() {
   }, [currentQuestionIndex, totalQuestions]);
 
   const handlePlayAgain = useCallback(() => {
-    setCurrentScreen('welcome');
+    setCurrentScreen('categories');
+    setSelectedCategoryId(null);
     setCurrentQuestionIndex(0);
     setScore(0);
     setSelectedAnswer(null);
@@ -89,8 +104,17 @@ function App() {
   const renderScreen = () => {
     switch (currentScreen) {
       case 'welcome':
-        return <WelcomeScreen quizData={quizData} onStart={handleStartQuiz} />;
+        return <WelcomeScreen quizData={{ title: 'Quiz App', description: '', questions: [] }} onStart={handleStartQuiz} />;
+      case 'categories':
+        return (
+          <CategoriesScreen
+            categories={categories}
+            onCategorySelect={handleCategorySelect}
+            onBack={handleBackToWelcome}
+          />
+        );
       case 'quiz':
+        if (!currentQuestion) return null;
         return (
           <QuizScreen
             question={currentQuestion}
