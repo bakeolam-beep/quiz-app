@@ -19,6 +19,24 @@ The application lets users choose a quiz category, answer timed questions, recei
 - Responsive interface
 - Type-safe React + TypeScript implementation
 
+## Preview
+
+### Welcome
+
+![Quiz App Welcome Screen](./assets/welcome.png)
+
+### Categories
+
+![Quiz App Categories](./assets/categories.png)
+
+### Quiz
+
+![Quiz App Quiz Screen](./assets/quiz.png)
+
+### Results
+
+![Quiz App Results](./assets/results.png)
+
 ## Quiz Flow
 
 ```text
