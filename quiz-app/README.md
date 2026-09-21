@@ -1,75 +1,171 @@
-# React + TypeScript + Vite
+# Quiz App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web-based quiz application built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+The application lets users choose a quiz category, answer timed questions, receive immediate feedback, and view their final score. Each session generates a randomized set of questions while tracking previously used questions to improve variety across sessions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Category-based quizzes
+- Randomized question sessions
+- 5 questions per session
+- 30-second timer per question
+- Immediate answer feedback
+- Automatic scoring
+- Progress tracking
+- Results screen
+- Play-again flow
+- Question history stored locally
+- Responsive interface
+- Type-safe React + TypeScript implementation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Quiz Flow
 
-## Expanding the ESLint configuration
+```text
+Welcome
+   ↓
+Choose Category
+   ↓
+Timed Quiz
+   ↓
+Answer Feedback
+   ↓
+Results
+   ↓
+Play Again
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## CATEGORIES
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+The application currently includes multiple knowledge categories, including:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Technology
+History
+Medicine
+Artificial Intelligence
+Machine Learning
+Programming Languages
 
-```
+Additional categories can be added through the quiz data configuration.
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Tech Stack
+React
+TypeScript
+Vite
+CSS
+ESLint
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+quiz-app/
+├── public/
+│   ├── favicon.svg
+│   └── icons.svg
+│
+├── src/
+│   ├── assets/
+│   │   └── hero.png
+│   ├── components/
+│   │   ├── CategoriesScreen.tsx
+│   │   ├── QuizScreen.tsx
+│   │   ├── ResultsScreen.tsx
+│   │   └── WelcomeScreen.tsx
+│   ├── utils/
+│   │   └── quiz.ts
+│   ├── App.css
+│   ├── App.tsx
+│   ├── data.ts
+│   ├── index.css
+│   ├── main.tsx
+│   ├── session.ts
+│   └── types.ts
+│
+├── index.html
+├── package.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── eslint.config.js
 
-```
+Getting Started
+Requirements
+Node.js
+npm
+Installation
+
+Clone the repository and enter the application directory:
+
+git clone https://github.com/bakeolam-beep/quiz-app.git
+cd quiz-app/quiz-app
+
+Install dependencies:
+
+npm install
+Development
+
+Start the local development server:
+
+npm run dev
+
+Vite will provide a local URL in the terminal.
+
+Production Build
+
+Create a production build:
+
+npm run build
+Preview Production Build
+npm run preview
+Lint
+npm run lint
+How It Works
+
+When a user selects a category, the application creates a quiz session using the available questions for that category.
+
+Questions are shuffled before a session is created. The application also maintains question history in browser local storage so previously used questions can be avoided when enough unused questions are available.
+
+Each question has a 30-second time limit. Selecting an answer immediately evaluates the response and stops the timer. When the timer reaches zero, the question is automatically submitted.
+
+After completing the session, the user receives a results summary showing their score and can start another quiz.
+
+Local Storage
+
+The application uses browser local storage to maintain question history between sessions.
+
+The stored history is used to improve question variety across subsequent quiz sessions on the same browser.
+
+Clearing browser storage will reset the stored question history.
+
+Development
+
+This project was built as a practical React and TypeScript application focused on:
+
+Component-based UI architecture
+React state management
+Timed interactions
+Data-driven rendering
+Randomized session generation
+Local persistence
+Type-safe application logic
+Responsive frontend development
+Status
+
+Completed
+
+The application has a functional quiz flow and production build configuration.
+
+License
+
+This project is available for portfolio and educational purposes.
+
+
+### One important correction
+
+I deliberately **did not put a fake live-demo URL, fake screenshots, fake author information, or claims about technologies the app doesn't use**.
+
+Also, the README's clone command reflects the current GitHub structure:
+
+```bash
+cd quiz-app/quiz-app
+
+because the Vite application is nested inside the repository.
